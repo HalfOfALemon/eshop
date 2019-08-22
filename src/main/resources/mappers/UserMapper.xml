@@ -151,4 +151,21 @@
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <!--查询用户名是否存在-->
+  <select id="checkUsername" parameterType="string" resultType="int">
+    select count(1) from eshop_user
+    where username=#{username}
+  </select>
+  <!--查询用户名是否存在-->
+  <select id="checkEmail" parameterType="string" resultType="int">
+    select count(1) from eshop_user
+    where email=#{email}
+  </select>
+  <!--查询用户和密码是否存在-->
+  <select id="selectLogin" resultMap="BaseResultMap" parameterType="map">
+     select
+     <include refid="Base_Column_List"/>
+     from eshop_user
+     where username=#{username} and password=#{password}
+  </select>
 </mapper>
