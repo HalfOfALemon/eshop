@@ -3,6 +3,7 @@ package com.eshop.service.impl;
 import com.eshop.common.Const;
 import com.eshop.common.ResponseCode;
 import com.eshop.common.ServerResponce;
+import com.eshop.common.TokenCache;
 import com.eshop.dao.UserMapper;
 import com.eshop.pojo.User;
 import com.eshop.service.IUserService;
@@ -10,6 +11,8 @@ import com.eshop.util.MD5Util;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.UUID;
 
 @Service("iUserService")
 public class UserServiceImpl implements IUserService {
@@ -79,5 +82,32 @@ public class UserServiceImpl implements IUserService {
             return ServerResponce.createByErrorMessage("参数错误");
         }
         return ServerResponce.createBySuccessMessage("校验成功");
+    }
+
+    @Override
+    public ServerResponce<String> selectQuestion(String username) {
+        //查询找回密码问题
+        ServerResponce<String> checkValid = this.checkValid(username, Const.USERNAME);
+        if(checkValid.isSuccess()){
+            return ServerResponce.createByErrorMessage("用户名不存在");
+        }
+        String question = userMapper.selectQuestionByUsername(username);
+        if(StringUtils.isNotBlank(question)){
+            return ServerResponce.createBySuccess(question);
+        }
+        return ServerResponce.createByErrorMessage("找回密码的问题为空");
+    }
+
+    @Override
+    public ServerResponce<String> checkAnswer(String username, String question, String answer) {
+        int resultCount = userMapper.checkAnswer(username, question, answer);
+        if(resultCount>0){
+            //使用UUID生成一个随机字符串，当做token储存起来
+            String forgetToken= UUID.randomUUID().toString();
+            //创建token类保存token
+            TokenCache.setKey("token"+username,forgetToken);
+            return ServerResponce.createBySuccess(forgetToken);
+        }
+        return ServerResponce.createByErrorMessage("答案错误");
     }
 }

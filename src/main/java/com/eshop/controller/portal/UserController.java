@@ -40,7 +40,7 @@ public class UserController {
      * @param session
      * @return
      */
-    @RequestMapping(value = "logout.do",method = RequestMethod.POST)
+    @RequestMapping(value = "logout.do",method = RequestMethod.GET)
     @ResponseBody
     public ServerResponce<String> logout(HttpSession session){
         session.removeAttribute(Const.CURRENT_USER);
@@ -52,7 +52,7 @@ public class UserController {
      * @param user
      * @return
      */
-    @RequestMapping(value = "register.do",method = RequestMethod.POST)
+    @RequestMapping(value = "register.do",method = RequestMethod.GET)
     @ResponseBody
     public ServerResponce<String> register(User user){
         return iUserService.register(user);
@@ -64,7 +64,7 @@ public class UserController {
      * @param type
      * @return
      */
-    @RequestMapping(value = "check_valid.do",method = RequestMethod.POST)
+    @RequestMapping(value = "check_valid.do",method = RequestMethod.GET)
     @ResponseBody
     public ServerResponce<String> checkValid(String str,String type){
         return iUserService.checkValid(str, type);
@@ -75,7 +75,7 @@ public class UserController {
      * @param session
      * @return
      */
-    @RequestMapping(value = "get_user_info.do",method = RequestMethod.POST)
+    @RequestMapping(value = "get_user_info.do",method = RequestMethod.GET)
     @ResponseBody
     public ServerResponce<User> getUserInfo(HttpSession session){
         User user= (User) session.getAttribute(Const.CURRENT_USER);
@@ -83,6 +83,30 @@ public class UserController {
             return ServerResponce.createBySuccess(user);
         }
         return ServerResponce.createByErrorMessage("用户未登录，无法获取用户信息");
+    }
+
+    /**
+     * 获取找回密码的问题
+     * @param username
+     * @return
+     */
+    @RequestMapping(value = "forget_get_question.do",method = RequestMethod.GET)
+    @ResponseBody
+    public ServerResponce<String> forgetGetQuestion(String username){
+        return iUserService.selectQuestion(username);
+    }
+
+    /**
+     * 检查找回密码的问题的答案是否正确
+     * @param username
+     * @param question
+     * @param answer
+     * @return
+     */
+    @RequestMapping(value = "forget_check_answer.do",method = RequestMethod.GET)
+    @ResponseBody
+    public ServerResponce<String> forgetCheckAnswer(String username,String question,String answer){
+        return iUserService.checkAnswer(username,question,answer);
     }
 
 }

@@ -21,4 +21,8 @@ public interface UserMapper {
     int checkEmail(String email);
     /*查询用户和密码是否存在*/
     User selectLogin(@Param("username") String username, @Param("password") String password);
+    /*查询找回密码问题*/
+    String selectQuestionByUsername(String username);
+    /*查询问题是否正确*/
+    int checkAnswer(@Param("username") String username, @Param("question")String question, @Param("answer")String answer);
 }
