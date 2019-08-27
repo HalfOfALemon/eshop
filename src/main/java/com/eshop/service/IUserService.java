@@ -9,4 +9,9 @@ public interface IUserService {
     ServerResponce<String> checkValid(String str,String type);
     ServerResponce<String> selectQuestion(String username);
     ServerResponce<String> checkAnswer(String username,String question,String answer);
+    ServerResponce<String> forgetResetPassword(String username,String passwordNew,String forgetToken);
+    ServerResponce<String> resetPassword(String passwordOld,String passwordNew,User user);
+    ServerResponce<User> updateInformation(User user);
+    ServerResponce<User> getInformation(Integer userId);
+    ServerResponce checkAdminRole(User user);
 }

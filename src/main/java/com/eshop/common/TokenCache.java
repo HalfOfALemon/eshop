@@ -11,9 +11,13 @@ import java.util.concurrent.TimeUnit;
 public class TokenCache {
     //声明日志
     private static Logger logger=LoggerFactory.getLogger(TokenCache.class);
+    public static String TOKEN_PREFIX="token_";
 
-    //.initialCapacity(1000):设置初始化的容量; maximumSize(1000):当超过3000时，会使用LRU算法对缓存进行清理
-    //expireAfterAccess(12, TimeUnit.HOURS):缓存的有效期是12个小时
+
+    /**
+     *     .initialCapacity(1000):设置初始化的容量; maximumSize(1000):当超过3000时，会使用LRU算法对缓存进行清理
+     *     expireAfterAccess(12, TimeUnit.HOURS):缓存的有效期是12个小时
+     */
     private static LoadingCache<String,String> localCache= CacheBuilder.newBuilder().initialCapacity(1000).maximumSize(3000).expireAfterAccess(12, TimeUnit.HOURS)
             .build(new CacheLoader<String, String>() {
                 //默认的加载实现，当调用get方法时，找不到对应的token，就会加载这个方法

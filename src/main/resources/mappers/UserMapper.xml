@@ -35,7 +35,7 @@
       update_time)
     values (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
       #{email,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{question,jdbcType=VARCHAR}, 
-      #{answer,jdbcType=VARCHAR}, #{role,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{answer,jdbcType=VARCHAR}, #{role,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP},
       #{updateTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.eshop.pojo.User">
@@ -133,8 +133,12 @@
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="updateTime != null">
-        update_time = #{updateTime,jdbcType=TIMESTAMP},
+        update_time = now(),
       </if>
+      <if test="updateTime == null">
+        update_time = now(),
+      </if>
+      <!--update_time = #{updateTime,jdbcType=TIMESTAMP},修改时自动更新-->
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -184,4 +188,27 @@
     and question=#{question}
     and answer=#{answer}
   </select>
+  <!--忘记密码的修改密码 TODO 记得将 修改时间更新 update_time-->
+  <update id="updatePasswordByUsername" parameterType="map">
+    update eshop_user
+    set password=#{password},update_time=now()
+    where username=#{username}
+  </update>
+  <!--查询密码是否是这个用户的-->
+  <select id="checkPassword" parameterType="map" resultType="int">
+    select
+    count(1)
+    from eshop_user
+    where id=#{userId}
+    and password=#{password}
+  </select>
+  <!--根据用户名，查找是否存在当前用户之外的邮箱-->
+  <select id="checkEmailByUserId" resultType="int" parameterType="map">
+    select
+    count(1)
+    from eshop_user
+    where email=#{email}
+    and id !=#{userId}
+  </select>
+
 </mapper>

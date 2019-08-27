@@ -25,4 +25,10 @@ public interface UserMapper {
     String selectQuestionByUsername(String username);
     /*查询问题是否正确*/
     int checkAnswer(@Param("username") String username, @Param("question")String question, @Param("answer")String answer);
+    /*重置密码*/
+    int updatePasswordByUsername(@Param("username") String username,@Param("password") String password);
+    /*检查密码是否属于这个用户*/
+    int checkPassword(@Param("password")String password,@Param("userId")Integer userId);
+    /*根据用户名，查找是否存在当前用户之外的邮箱*/
+    int checkEmailByUserId(@Param("email")String email,@Param("userId")Integer userId);
 }
