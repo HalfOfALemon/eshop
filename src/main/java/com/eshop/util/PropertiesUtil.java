@@ -8,42 +8,41 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Properties;
 
-/**
- * Created by geely
- */
 public class PropertiesUtil {
+    private static Logger logger= LoggerFactory.getLogger(PropertiesUtil.class);
 
-    private static Logger logger = LoggerFactory.getLogger(PropertiesUtil.class);
-
-    private static Properties props;
-
+    private static Properties properties;
+    /*静态代码块（只执行一次） 优于 普通代码块 优于 构造代码块*/
     static {
-        String fileName = "eshop.properties";
-        props = new Properties();
+        String fileName="eshop.properties";
+        properties=new Properties();
         try {
-            props.load(new InputStreamReader(PropertiesUtil.class.getClassLoader().getResourceAsStream(fileName),"UTF-8"));
+            properties.load(new InputStreamReader(PropertiesUtil.class.getClassLoader().getResourceAsStream(fileName),"UTF-8"));
         } catch (IOException e) {
             logger.error("配置文件读取异常",e);
         }
     }
 
+    /**
+     * 得到配置文件里边的值
+     * @param key
+     * @return
+     */
     public static String getProperty(String key){
-        String value = props.getProperty(key.trim());
+        //避免key左右有空格，trim（）去掉空格
+        String value=properties.getProperty(key.trim());
         if(StringUtils.isBlank(value)){
             return null;
         }
         return value.trim();
     }
 
-    public static String getProperty(String key,String defaultValue){
-
-        String value = props.getProperty(key.trim());
+    public static String getProperty(String key,String defaultVaule){
+        //避免key左右有空格，trim（）去掉空格
+        String value=properties.getProperty(key.trim());
         if(StringUtils.isBlank(value)){
-            value = defaultValue;
+            return defaultVaule;
         }
         return value.trim();
     }
-
-
-
 }
