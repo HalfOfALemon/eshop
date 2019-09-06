@@ -120,7 +120,7 @@
   <select id="selectCategoryChildrenByParentId" parameterType="int" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
-    from eshop_product
+    from eshop_category
     where parent_id = #{parent_id}
   </select>
 

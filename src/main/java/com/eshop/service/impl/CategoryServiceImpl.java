@@ -73,14 +73,13 @@ public class CategoryServiceImpl implements ICategoryService {
      * @return
      */
     @Override
-    public ServerResponce selectCategoryAndChildrenById(Integer categoryId) {
+    public ServerResponce<List<Integer>> selectCategoryAndChildrenById(Integer categoryId) {
         Set<Category> categorySet=new HashSet<>();
         Set<Category> childrenCategory = findChildrenCategory(categorySet, categoryId);
-        List<Category> list=new ArrayList<>();
+        List<Integer> list=new ArrayList<>();
         if(categoryId!=null){
             for(Category categoryItem:childrenCategory){
-                //TODO 存对象还是存Id
-                list.add(categoryItem);
+                list.add(categoryItem.getId());
             }
         }
         return ServerResponce.createBySuccess(list);

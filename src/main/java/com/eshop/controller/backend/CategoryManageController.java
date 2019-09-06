@@ -112,7 +112,7 @@ public class CategoryManageController {
         //检查用户有没有登录
         User user = (User)session.getAttribute(Const.CURRENT_USER);
         if(user==null){
-            ServerResponce.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),"用户未登录，请登录");
+            return ServerResponce.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),"用户未登录，请登录");
         }
         //检查是否是管理员
         if(iUserService.checkAdminRole(user).isSuccess()){

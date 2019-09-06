@@ -28,11 +28,11 @@ import java.util.Map;
 public class ProductManageController {
 
     @Autowired
-    IUserService iUserService;
+    private IUserService iUserService;
     @Autowired
-    IProductService iProductService;
+    private IProductService iProductService;
     @Autowired
-    IFileService iFileService;
+    private IFileService iFileService;
 
     /**
      * 保存或者更新产品

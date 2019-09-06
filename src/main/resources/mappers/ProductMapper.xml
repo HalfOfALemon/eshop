@@ -191,11 +191,27 @@
     from eshop_product
     <where>
       <if test="productName !=null">
-        and productName=#{productName}
+        and name like #{productName}
       </if>
       <if test="productId !=null">
-        and producId=#{producId}
+        and id=#{productId}
       </if>
     </where>
+  </select>
+  <!--根据关键字和分类list查询产品-->
+  <select id="selectByNameAndProductIds" resultMap="BaseResultMap" parameterType="map">
+    select
+    <include refid="Base_Column_List"></include>
+     from eshop_product
+     where status=1
+     <if test="productName !=null">
+       and name like #{productName}
+     </if>
+     <if test="categoryIdList !=null">
+     and category_id in
+      <foreach collection="categoryIdList" item="item" open="(" separator="," close=")">
+       #{item}
+      </foreach>
+     </if>
   </select>
 </mapper>
