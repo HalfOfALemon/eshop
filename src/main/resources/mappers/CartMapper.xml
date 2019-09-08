@@ -116,4 +116,24 @@
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="selectCartByUserIdProductId" parameterType="map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from eshop_cart
+    where user_id=#{userId}
+    and product_id=#{productId}
+  </select>
+  <select id="selectCartByUserId" resultMap="BaseResultMap" parameterType="int">
+    select
+    <include refid="Base_Column_List"/>
+    from eshop_cart
+    where user_id=#{userId}
+  </select>
+  <select id="selectCartProductCheckedStatusByUserId" parameterType="int">
+    select
+    count(1)
+    from eshop_cart
+    where user_id=#{userId}
+    and checked = 0
+  </select>
 </mapper>
