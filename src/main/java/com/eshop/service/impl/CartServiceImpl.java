@@ -12,6 +12,7 @@ import com.eshop.util.BigDecimalUtil;
 import com.eshop.util.PropertiesUtil;
 import com.eshop.vo.CartProductVo;
 import com.eshop.vo.CartVo;
+import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,8 +52,50 @@ public class CartServiceImpl implements ICartService {
             cart.setQuantity(count);
             cartMapper.updateByPrimaryKeySelective(cart);
         }
-        CartVo cartVo=this.getCartVoLimit(userId);
+        return this.list(userId);
+    }
+
+    @Override
+    public ServerResponce<CartVo> update(Integer userId, Integer productId, Integer count) {
+        if(productId==null || count==null){
+            return ServerResponce.createByErrorCodeMessage(ResponseCode.ILLEGAL_ARGUMENT.getCode(),ResponseCode.ILLEGAL_ARGUMENT.getDesc());
+        }
+        Cart  cart=cartMapper.selectCartByUserIdProductId(userId,productId);
+        if(cart!=null){
+            cart.setQuantity(count);
+        }
+        cartMapper.updateByPrimaryKeySelective(cart);
+        return this.list(userId);
+    }
+
+    @Override
+    public ServerResponce<CartVo> deleteProduct(Integer userId, String productIds) {
+        List<String> productList = Splitter.on(",").splitToList(productIds);
+        if(CollectionUtils.isEmpty(productList)){
+            return ServerResponce.createByErrorCodeMessage(ResponseCode.ILLEGAL_ARGUMENT.getCode(),ResponseCode.ILLEGAL_ARGUMENT.getDesc());
+        }
+        cartMapper.deleteByUserIdProductIds(userId,productList);
+        return this.list(userId);
+    }
+
+    @Override
+    public ServerResponce<CartVo> list(Integer userId) {
+        CartVo cartVo = this.getCartVoLimit(userId);
         return ServerResponce.createBySuccess(cartVo);
+    }
+
+    @Override
+    public ServerResponce<CartVo> selectOrUnSelect(Integer userId,Integer productId, Integer checked) {
+        cartMapper.checkedOrUnCheckedProduct(userId,productId,checked);
+        return this.list(userId);
+    }
+
+    @Override
+    public ServerResponce<Integer> getCartProductCount(Integer userId) {
+        if(userId==null){
+            return ServerResponce.createBySuccess(0);
+        }
+        return ServerResponce.createBySuccess(cartMapper.selectCartProductCount(userId));
     }
 
     /**
