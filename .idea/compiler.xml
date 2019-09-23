@@ -13,4 +13,9 @@
       <module name="tmall_ssm" target="1.8" />
     </bytecodeTargetLevel>
   </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="eshop" options="-extdirs E:\javaRoad\code\combat\ssm\eshop/src/main/webapp/WEB-INF/lib" />
+    </option>
+  </component>
 </project>

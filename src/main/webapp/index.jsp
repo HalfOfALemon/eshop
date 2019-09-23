@@ -10,10 +10,12 @@ SpringMVC图片上传
     <input type="submit" value="springMVC上传文件">
 </form>
 <br>
-富文本文件上传
+富文本文件上传：
 <form name="form" action="manage/product/richtext_img_upload.do" method="post" enctype="multipart/form-data">
     <input type="file" name="upload_name">
     <input type="submit" value="富文本上传文件">
 </form>
+<h1> 胡牛逼 </h1>
+
 </body>
 </html>
