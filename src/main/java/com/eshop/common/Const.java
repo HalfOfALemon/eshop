@@ -15,8 +15,14 @@ public class Const {
      * 内部接口，用户权限的常量
      */
     public interface Role{
-        int ROLE_CUSTOMER =0;//普通用户
-        int ROLE_ADMIN =1;//管理员
+        /**
+         * 普通用户
+         */
+        int ROLE_CUSTOMER =0;
+        /**
+         * 管理员
+         */
+        int ROLE_ADMIN =1;
     }
     public interface Cart{
         int CHECKED=1;//购物车选中状态

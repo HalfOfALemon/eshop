@@ -83,7 +83,7 @@ public class OrderController {
      * @param session
      * @return
      */
-     @RequestMapping("detail.do")
+         @RequestMapping("detail.do")
      @ResponseBody
      public ServerResponce detail(HttpSession session,Long orderNo){
      User user = (User) session.getAttribute(Const.CURRENT_USER);

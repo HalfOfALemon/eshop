@@ -15,4 +15,8 @@ public interface IOrderService {
     ServerResponce getOrderCartProduct(Integer userId);
     ServerResponce<OrderVo> getOrderDetail(Integer userId,Long orderNo);
     ServerResponce<PageInfo> getOrderList(Integer userId,int pageNum,int pageSize);
+    ServerResponce<PageInfo> manageList(int pageNum,int pageSize);
+    ServerResponce<OrderVo> manageDetail(Long orderNo);
+    ServerResponce<PageInfo> manageSearch(Long orderNo,int pageNum,int pageSize);
+    ServerResponce<String> manageSendGoods(Long orderNo);
 }
